@@ -189,7 +189,7 @@ RegisterGamemode('arena', {
 RegisterGamemode('pudgewars', {
     -- Gamemode covers picking and playing
     sort = GAMEMODE_BOTH,
-
+    onThink = function(frota, dt) CustomPudge:_thinkState_Move() end,
     -- Function to give out heroes
     assignHero = function(frota, ply)
         local hookSkill = 'pudge_meat_hook_holdout'

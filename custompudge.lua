@@ -40,8 +40,9 @@ end
 
 function CustomPudge:_SetInitialValues()
   print("\n\nTest\n\n")
-  --self.thinkState = Dynamic_Wrap( CustomPudge, '_thinkState_Move' )
-  --self._scriptBind:BeginThink( "CustomPudgeThinkMove", Dynamic_Wrap( CustomPudge, 'Think' ), 0.01 )
+  self.onThink = nil
+--  self.thinkState = Dynamic_Wrap( CustomPudge, '_thinkState_Move' )
+--  self._scriptBind:BeginThink( "CustomPudgeThinkMove", Dynamic_Wrap( CustomPudge, 'Think' ), 0.25 )
 end
 
 -- Called from the addon in charge to initialize this class
@@ -56,7 +57,7 @@ function CustomPudge:InitGameMode()
   CustomPudge:_SetInitialValues();
 end
 
-function CustomPudge:_thinkState_Move( dt )
+function CustomPudge:_thinkState_Move()
     print("working...")
 --[[   if moveUnitGrapple then
       local endVec = targetUnit:GetOrigin()
@@ -184,7 +185,7 @@ function OnGrappleHookHit( keys )
 end
 function OnHookHit( keys )
   print("\n\n Normal HIT \n\n")
-  keepGoing = true
+ -- keepGoing = true
   targetUnit = keys.target_entities[1]
   casterUnit = keys.caster
   if targetUnit:GetHealth() > nhookdamage then
@@ -194,7 +195,7 @@ function OnHookHit( keys )
   end
   if targetUnit:IsAlive() then
     print("IS ALIVE")
-    moveUnit = true
+  --  moveUnit = true
     print("Started Think")
   else
     print("\n\n IS NOT ALIVE \n\n")
@@ -204,8 +205,7 @@ end
 function OnThrowHook( keys )
   print("\n\n THROW \n\n")
 end
-
-function OnUpgradeHookLength()
+function OnUpgradeHookLength( keys )
   print("\n\nonupgradehook\n\n")
   PudgeArray[ keys.caster:GetPlayerOwnerID() ]:AddLength(100)
 end
@@ -214,4 +214,4 @@ function OnUpgradeHookDamage( keys )
   print("\n\nonupgradehook damage\n\n")
   PudgeArray[ keys.caster:GetPlayerOwnerID() ]:AddDamage(100)
 end
-EntityFramework:RegisterScriptClass( CustomPudge )
+--EntityFramework:RegisterScriptClass( CustomPudge )
