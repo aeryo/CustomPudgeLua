@@ -1,105 +1,64 @@
---[[
-Frostivus Game Mode
-
-Festive game mode for great fun.
-]]
-
-local nHookLength = 0
-local keepGoing = true
-local targetUnit = nil 
-local casterUnit = nil
-local moveUnit,moveUnitGrapple = false
-local nhookdamage = 100
-
-
--- Written like this to allow reloading
-if FrostivusGameMode == nil then
-  FrostivusGameMode = {}
-  FrostivusGameMode.szEntityClassName = "frostivus"
-  FrostivusGameMode.szNativeClassName = "dota_base_game_mode"
-  FrostivusGameMode.__index = FrostivusGameMode
-
-  -- Preserve this across script reloads
-  -- How many guys this round are we respawning right now (to avoid ending early)
-  FrostivusGameMode.nExecutingRespawns = 0
-  -- How many guys this round have already respawned (to update quest text)
-  FrostivusGameMode.nExecutedRespawns = 0
-  FrostivusGameMode.bQuestTextDirty = false
+if CustomPudge == nil then
+  
+  PudgeClass = {}
+  PudgeClass.__index = PudgeClass
+  
+  CustomPudge = {}
+  CustomPudge.__index = CustomPudge
+  
 end
 
-function FrostivusGameMode:new (o)
+function CustomPudge:new (o)
   o = o or {}
   setmetatable(o, self)
   return o
 end
 
--- Default settings for regular Dota
-local minimapHeroScale = 600
-local minimapCreepScale = 1
-
-function FrostivusGameMode:_SetInitialValues()
-  nHookLength = 1200
-  self.thinkState = Dynamic_Wrap( FrostivusGameMode, '_thinkState_Move' )
-  self._scriptBind:BeginThink( "FrostivusThinkMove", Dynamic_Wrap( FrostivusGameMode, 'Think' ), 0.001 )
+-- ****** PUDGECLASS FUNCTIONS START
+function PudgeClass.create(playerId)
+  local pudge = {}
+  setmetatable(pudge,PudgeClass)
+  pudge.playerId = playerId
+  pudge.hookdamage = 500
+  pudge.hookspeed = 1000
+  pudge.hooklength = 1500
+  pudge.hookType = ""
+  pudge.target = nil
+  pudge.keepGoing = false
+  return pudge
 end
 
--- Called from C++ to Initialize
-function FrostivusGameMode:InitGameMode()
-  -- Bind "self" in the callback
+function PudgeClass:AddDamage(dmg)
+  self.hookdamage = self.hookdamage + dmg
+end
+
+function PudgeClass:AddLength(length)
+  self.hooklength = self.hooklength + length
+end
+
+-- ****** PUDGECLASS FUNCTIONS END
+
+function CustomPudge:_SetInitialValues()
+  print("\n\nTest\n\n")
+  --self.thinkState = Dynamic_Wrap( CustomPudge, '_thinkState_Move' )
+  --self._scriptBind:BeginThink( "CustomPudgeThinkMove", Dynamic_Wrap( CustomPudge, 'Think' ), 0.01 )
+end
+
+-- Called from the addon in charge to initialize this class
+function CustomPudge:InitGameMode()
   print("\n\n Pudgewars \n\n")
-  -- Setup rules
-  GameRules:SetHeroRespawnEnabled( false )
-  GameRules:SetUseUniversalShopMode( true )
-  GameRules:SetSameHeroSelectionEnabled( true )
-  GameRules:SetHeroSelectionTime( 0.0 )
-  GameRules:SetPreGameTime( 10.0 )
-  GameRules:SetPostGameTime( 60.0 )
-  GameRules:SetTreeRegrowTime( 60.0 )
-  GameRules:SetHeroMinimapIconSize( 400 )
-  GameRules:SetCreepMinimapIconScale( 0.7 )
-  GameRules:SetRuneMinimapIconScale( 0.7 )
-  
-  -- Hooks
-    ListenToGameEvent('player_connect_full', function(self, keys)
-        -- Grab the entity index of this player
-        local entIndex = keys.index+1
-        local ply = EntIndexToHScript(entIndex)
-
-        -- Find the team with the least players
-        local teamSize = {
-            [DOTA_TEAM_GOODGUYS] = 0,
-            [DOTA_TEAM_BADGUYS] = 0
-        }
-
-        for i=0, 9 do
-            if Players:IsValidPlayer(i) then
-                print('valid player '..i)
-                local ply = Players:GetPlayer(i)
-                if ply then
-                    -- Grab the players team
-                    local team = ply:GetTeam()
-
-                    -- Increase the number of players on this players team
-                    teamSize[team] = (teamSize[team] or 0) + 1
-                end
-            end
-        end
-
-        if teamSize[DOTA_TEAM_GOODGUYS] > teamSize[DOTA_TEAM_BADGUYS] then
-            ply:SetTeam(DOTA_TEAM_BADGUYS)
-        else
-            ply:SetTeam(DOTA_TEAM_GOODGUYS)
-        end
-        
-        CreateHeroForPlayer('npc_dota_hero_pudge', ply)
-        assignHero(ply)                  
-    end, self)
-    self:_SetInitialValues()  
-    self:UpgradeHookLength()
+  PudgeArray = {}
+  for i=0, 9 do
+    PudgeArray[i] = {}
+    PudgeArray[i] = PudgeClass.create(i)
+  end
+  print('Control, hookdamage: ' .. PudgeArray[0].hookdamage) -- Control that nothing went wrong.
+  CustomPudge:_SetInitialValues();
 end
 
-function FrostivusGameMode:_thinkState_Move( dt )
-    if moveUnitGrapple then
+function CustomPudge:_thinkState_Move( dt )
+    print("working...")
+--[[   if moveUnitGrapple then
       local endVec = targetUnit:GetOrigin()
       local curVec = casterUnit:GetOrigin()
       local distVec = curVec - endVec
@@ -207,7 +166,7 @@ function FrostivusGameMode:_thinkState_Move( dt )
       --targetUnit:SetVelocity( veloVec )
       targetUnit:SetOrigin( curVec )
       print("\n\n Moved Unit\n\n")
-    end
+    end --]]
 end
 
 function OnGrappleHookHit( keys )
@@ -248,65 +207,11 @@ end
 
 function OnUpgradeHookLength()
   print("\n\nonupgradehook\n\n")
-  FrostivusGameMode:UpgradeHookLength()
+  PudgeArray[ keys.caster:GetPlayerOwnerID() ]:AddLength(100)
 end
 
-function FrostivusGameMode:UpgradeHookLength()
-  nHookLength = nHookLength + 200
-  print( string.format( '\n\nHooklength %d\n\n', nHookLength ) )
-end
-
-function OnUpgradeHookDamage()
+function OnUpgradeHookDamage( keys )
   print("\n\nonupgradehook damage\n\n")
-  FrostivusGameMode:UpgradeHookDamage() 
+  PudgeArray[ keys.caster:GetPlayerOwnerID() ]:AddDamage(100)
 end
-
-
-function FrostivusGameMode:UpgradeHookDamage()
-  nhookdamage = nhookdamage + 100
-  print( string.format( '\n\nHookdamage %d\n\n', nhookdamage ) )
-end
-
-function FrostivusGameMode:_InitCVars()
-  if self.bHasSetCVars then
-    return
-  end
-  self.bHasSetCVars = true
-  Convars:SetBool( "dota_winter_ambientfx", true )
-  Convars:SetBool( "dota_teamscore_enable", false )
-end
-
-
--- Think function called from C++, every second.
-function FrostivusGameMode:Think()
-  -- If the game's over, it's over.
-  if GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME then
-    self._scriptBind:EndThink( "GameThink" )
-    return
-  end
-
-  -- Track game time, since the dt passed in to think is actually wall-clock time not simulation time.
-  local now = GameRules:GetGameTime()
-  if self.t0 == nil then
-    self.t0 = now
-  end
-  local dt = now - self.t0
-  self.t0 = now
-
-  self:thinkState( dt )
-
-  -- Think any tombstones...
-  for i = #self.vTombstones, 1, -1 do
-    local item = self.vTombstones[i]
-    if item:IsNull() then
-      table.remove( self.vTombstones, i )
-    elseif item:GetContainedItem() then
-      item:GetContainedItem():Think()
-    end
-  end
-    
-  self:_updateItemExpiration()
-
-  self:_roundThink( dt )
-end
-EntityFramework:RegisterScriptClass( FrostivusGameMode )
+EntityFramework:RegisterScriptClass( CustomPudge )
