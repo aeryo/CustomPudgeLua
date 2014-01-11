@@ -1,0 +1,911 @@
+// Dota Heroes File
+"DOTAAbilities"
+{
+	"Version"		"1"
+	
+	//=================================================================================================================
+        // Holdout: Hook
+        //=================================================================================================================
+        "pudge_meat_hook_holdout"
+        {
+                // General
+                //-------------------------------------------------------------------------------------------------------------
+                "BaseClass"         "ability_datadriven"
+                "AbilityBehavior"         "DOTA_ABILITY_BEHAVIOR_POINT"
+                "AbilityUnitDamageType"         "DAMAGE_TYPE_PURE"
+                "AbilityTextureName"         "pudge_meat_hook"
+
+                // Casting
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilityCastRange"         "1200"
+                "AbilityCastPoint"         "0.3 0.3 0.3 0.3"        
+                "AbilityCastAnimation"        "pudge_meat_hook"
+
+                // Time        
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilityCooldown"         "5"
+
+                // Damage.
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilityDamage"         "500"
+
+                // Cost
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilityManaCost"         "0"
+
+                "precache"
+                {
+                        "soundfile"                                        "scripts/game_sounds/ability_zombie_rage.txt"
+                }
+
+                "OnSpellStart"
+                {
+                        "FireSound"
+                        {
+                                "EffectName"                "Ability.PudgeHookCast"
+                                "Target"                        "CASTER"
+                        }
+                        
+                        "LinearProjectile"
+                        {
+                                "EffectName"                        "pudge_meat_hook"
+                                "MoveSpeed"                                "1200"
+                                "StartPosition"                        "attach_attack1"
+                                //"FixedDistance"                        "1200"
+                                "StartRadius"                        "50"
+                                "EndRadius"                                "50"
+                                "TargetTeams"                        "DOTA_UNIT_TARGET_TEAM_ENEMY | DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+                                "TargetTypes"                        "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+                                "TargetFlags"                        "DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS"
+                                "HasFrontalCone"                "1"
+                                "ProvidesVision"                "1"
+                                "VisionRadius"                        "300"
+                        }
+                }
+
+                "OnProjectileHitUnit"
+                {
+                        "DeleteOnHit" "true"
+                    //    "ApplyModifier"
+                   //     {
+                   //             "Target"                                 "TARGET"
+                   //             "Caster"                                "CASTER"
+                   //             "Center"								"CASTER"
+                   //             "ModifierName"                        "modifier_followthrough"                
+                   //     }
+                        "ApplyModifier"
+                        {
+                                "Target"                                 "TARGET"
+                                "Caster"                                "CASTER"
+                                "ModifierName"                        "modifier_pudge_meat_hook"                
+                        }
+                //        "Damage"
+                //        {
+                //                "Type"                "DAMAGE_TYPE_MAGICAL"
+                //                "Damage"        "500"
+                //                "Target" "TARGET" 
+                //        }
+                        "RunScript"
+                        {
+                                "Target"                                 "TARGET"
+                                "Caster"                                 "CASTER"
+                                "ScriptFile"                        "scripts/vscripts/custompudge.lua"
+                                "Function"                                "OnHookHit"
+                        }        
+                }
+                "OnSpellStart"
+                {
+                        "RunScript"
+                        {
+                                "ScriptFile"                        "scripts/vscripts/custompudge.lua"
+                                "Function"                                "OnThrowHook"
+                        }
+                }
+
+                // Special
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilitySpecial"
+                {
+                        "01"
+                        {
+                        "var_type"         "FIELD_FLOAT"
+                        "hook_speed"         "1000.0"
+                        }
+                        "02"
+                        {
+                        "var_type"         "FIELD_INTEGER"
+                        "hook_width"         "100"
+                        }
+                        "03"
+                        {
+                        "var_type"         "FIELD_INTEGER"
+                        "hook_distance"         "1200"
+                        }
+                        "04"
+                        {
+                        "var_type"         "FIELD_INTEGER"
+                        "vision_radius"         "500"
+                        }
+                        "05"
+                        {
+                        "var_type"         "FIELD_FLOAT"
+                        "vision_duration"        "4.0 4.0 4.0 4.0"
+                        }
+                }
+        }
+
+	"tiny_wars_toss"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_RUNE_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_CUSTOM"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_CUSTOM"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"BaseClass"						"tiny_toss"
+		
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"1300"
+		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"9"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0"
+
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityModifierSupportValue"	"0.25"	// generally used for damage only
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"duration"				"1.0 1.0 1.0 1.0"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"grab_radius"			"250 250 250 250"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"275 275 275 275"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage_pct"		"20 20 20 20"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"grow_bonus_damage_pct"		"35 50 65 80"
+			}
+			"06"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"tooltip_range"		"1500"
+			}
+			"07"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"toss_damage"				"75 150 225 300"
+			}
+
+		}
+	}
+	
+	
+	"tiny_wars_avalanche"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"BaseClass"						"tiny_avalanche"
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"600"
+		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"17.0 17.0 17.0 17.0"
+		"AbilityDuration"				"2.0 2.0 2.0 2.0"
+
+		// Damage.
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityDamage"					"100 180 260 300"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"275 275 275 275"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"tick_interval"				"0.25 0.25 0.25 0.25"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"num_ticks"					"4 4 4 4"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"stun_duration"				"1.0"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"projectile_duration"		"0.5"
+			}
+		}
+	}
+
+	"pure_skill_meat_hook"
+	{
+
+	"precache"
+		{
+			"particlefile"				"particles/units/heroes/hero_pudge.pcf"
+
+		}
+
+	// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
+		"BaseClass"						"pudge_meat_hook"
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"700 900 1100 1300"
+		"AbilityCastPoint"				"0.3 0.3 0.3 0.3"
+
+		// Time
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"14.0 13.0 12.0 11.0"
+
+		// Damage.
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityDamage"					"90 180 270 360"
+
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"hook_speed"			"1600.0"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"hook_width"		"100"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"hook_distance"		"700 900 1100 1300"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"vision_radius"		"500 500 500 500"
+			}
+			"05"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"vision_duration"	"4.0 4.0 4.0 4.0"
+			}
+		}
+	}
+
+	"pure_skill_mirana_arrow"
+	{
+
+	"precache"
+		{
+			"particlefile"				"particles/units/heroes/hero_mirana.pcf"
+
+		}
+
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"BaseClass"						"mirana_arrow"
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"3000"
+		"AbilityCastPoint"				"0.5 0.5 0.5 0.5"
+
+		// Time
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"17.0"
+		"AbilityDuration"				"3.11 3.11 3.11 3.11"
+
+		// Damage.
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityDamage"					"90 180 270 360"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"arrow_speed"		"857.0"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"arrow_width"		"115"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"arrow_range"		"3000"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"arrow_max_stunrange"	"1500"
+			}
+			"05"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"arrow_min_stun"	"0.5"
+			}
+			"06"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"arrow_max_stun"	"5.0"
+			}
+			"07"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"arrow_bonus_damage"	"100"
+			}
+		}
+	}
+
+	"pure_skill_magnataur_skewer"
+	{
+	"precache"
+		{
+			"particlefile"				"particles/units/heroes/hero_magnataur.pcf"
+
+		}
+
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"BaseClass"						"magnataur_skewer"
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastPoint"				"0.3 0.3 0.3 0.3"
+
+		// Time
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"30.0 30.0 30.0 30.0"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"skewer_speed"					"950"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"skewer_radius"				"125"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"max_targets"				"1 2 3 4"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"slow_duration"				"2.5"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"slow_pct"				"40 40 40 40"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"skewer_damage"			"70 140 210 280"
+			}
+			"07"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"range"					"600 800 1000 1200"
+			}
+			"08"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"tree_radius"				"200"
+			}
+		}
+	}
+
+
+	"pure_skill_tusk_ice_shards"
+	{
+
+	"precache"
+		{
+			"particlefile"				"particles/units/heroes/hero_tusk.pcf"
+
+		}
+
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"BaseClass"						"tusk_ice_shards"
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"1500"
+		"AbilityCastPoint"				"0.1 0.1 0.1 0.1"
+
+		// Time
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"18.0 16.0 14.0 12.0"
+
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"shard_width"				"200"
+			}
+
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"shard_damage"				"70 140 210 280"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"shard_count"				"7"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"shard_speed"				"900.0"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"shard_duration"				"5.0"
+			}
+			"06"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"shard_angle_step"			"40.0"
+			}
+			"07"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"shard_distance"			"200"
+			}
+		}
+	}
+
+
+//=================================================================================================================
+	// Pudge Place Mine
+	//=================================================================================================================
+	"pudge_place_mine"
+	{
+		// General
+                //-------------------------------------------------------------------------------------------------------------
+                "BaseClass"             "ability_datadriven"
+                "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_POINT"
+                "AbilityTextureName"     "tinker_rearm"
+
+                // Casting
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilityCastRange"       "1200"
+                "AbilityCastPoint"       "0.3 0.3 0.3 0.3"
+                "AbilityCastAnimation"  "pudge_meat_hook"
+				"AbilityCastAnimation"  "pudge_meat_hook"
+
+                // Time
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilityCooldown"        "1"
+
+
+                // Cost
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilityManaCost"        "0"
+
+				"OnSpellStart"
+                {
+
+						"SpawnUnit"
+						{
+								"UnitName"				"npc_dota_mine"
+								"Target" 				"POINT"
+								"UnitCount"				"1"
+								"OnSpawn"
+								{
+									"ApplyModifier"
+									{
+										"Target"			"TARGET"
+										"ModifierName"		"modifier_invisible"
+									}
+
+								}
+						}
+
+
+
+				}
+
+	}
+
+
+	//=================================================================================================================
+	// Mine Explosion
+	//=================================================================================================================
+	"mine_explosion"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"tinker_rearm"
+
+		"precache"
+		{
+			"particlefile"				"particles/units/heroes/hero_witchdoctor.pcf"
+
+		}
+
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+
+				"ModifierName"			"aura_health_regen"
+				"Target"
+				{
+					"Center"			"CASTER"
+					"Radius"			"%health_radius"
+					"Teams"				"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+					"Types"				"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP | DOTA_UNIT_TARGET_MECHANICAL | DOTA_UNIT_TARGET_OTHER"
+				}
+			}
+		}
+
+		// Modifiers
+		//-------------------------------------------------------------------------------------------------------------
+		"Modifiers"
+		{
+			"fx_heal_aura"
+			{
+				"Passive"				"1"
+				"IsHidden"				"1"
+				"OnCreated"
+				{
+					"AttachEffect"
+					{
+						"Target"			"CASTER"
+						"EffectName"		"witchdoctor_voodoo_restoration"
+						"EffectAttachType"	"follow_origin"
+
+						"ControlPoints"
+						{
+							"00"	"0 0 0"
+							"01"	"0 0 0"
+							"02"	"0 0 0"
+						}
+					}
+				}
+			}
+
+			"aura_health_regen"
+			{
+				"IsHidden"				"0"
+				"Passive"				"1"
+
+				"Aura"					"health_regen"
+				"Aura_Radius"			"%health_radius"
+				"Aura_Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+				"Aura_Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP | DOTA_UNIT_TARGET_MECHANICAL"
+				"Aura_ApplyToCaster"	"0"
+
+
+			}
+
+			"health_regen"
+			{
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"	"0"
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"	"0"
+				}
+
+				"OnCreated"
+				{
+
+					"FireSound"
+					{
+						"EffectName"		"Hero_Gyrocopter.CallDown.Damage"
+						"Target"			"CASTER"
+					}
+
+					"FireEffect"
+					{
+						"Target"				"CASTER"
+						"EffectName"			"generic_aoe_explosion_sphere_1"
+						"EffectAttachType"		"follow_origin"
+						"EffectRadius"			"200"
+						"EffectDurationScale"	"1"
+						"EffectLifeDurationScale" "1"
+						"EffectColorA"			"255 128 0"
+						"EffectColorB"			"255 0 0"
+					}
+
+
+					"Damage"
+					{
+						"Target"
+						{
+							"Center"			"CASTER"
+							"Radius"			"200"
+							"Teams"				"DOTA_UNIT_TARGET_TEAM_ENEMY"
+							"Types"				"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP | DOTA_UNIT_TARGET_MECHANICAL | DOTA_UNIT_TARGET_OTHER"
+						}
+						"Type"				"DAMAGE_TYPE_MAGICAL"
+						"Damage"			"100"
+					}
+
+					"Damage"
+					{
+						"Target"
+						{
+							"Center"			"CASTER"
+							"Radius"			"500"
+							"Teams"				"DOTA_UNIT_TARGET_TEAM_ENEMY"
+							"Types"				"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP | DOTA_UNIT_TARGET_MECHANICAL | DOTA_UNIT_TARGET_OTHER"
+						}
+						"Type"				"DAMAGE_TYPE_MAGICAL"
+						"Damage"			"100"
+					}
+
+					"Damage"
+					{
+						"Target"			"CASTER"
+						"Type"				"DAMAGE_TYPE_PURE"
+						"Damage"			"1000"
+					}
+				}
+
+			}
+
+
+		}
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"health_radius"				"85"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"health_regen_amount"		"22.0 23.0 24.0 25.0"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"armor_buff"				"8 12 18 22"
+			}
+		}
+	}
+
+	//=================================================================================================================
+	// Pudge Wars: Upgrade Hook Damage
+	//=================================================================================================================
+	"pudge_wars_upgrade_hook_damage"
+	{
+		// General
+                //-------------------------------------------------------------------------------------------------------------
+                "BaseClass"             "ability_datadriven"
+                "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+                "AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+				"AbilityTextureName"     "pudge_wars_upgrade_hook_damage"
+
+                // Casting
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilityCastPoint"       "0"
+
+
+                // Time
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilityCooldown"        "0"
+
+
+                // Cost
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilityManaCost"        "0"
+
+				"OnSpellStart"
+                {
+
+
+
+				}
+
+	}
+
+	//=================================================================================================================
+	// Pudge Wars: Upgrade Hook Range
+	//=================================================================================================================
+	"pudge_wars_upgrade_hook_range"
+	{
+		// General
+                //-------------------------------------------------------------------------------------------------------------
+                "BaseClass"             "ability_datadriven"
+                "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+               "AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+			   "AbilityTextureName"     "pudge_wars_upgrade_hook_range"
+
+                // Casting
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilityCastPoint"       "0"
+
+
+                // Time
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilityCooldown"        "0"
+
+
+                // Cost
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilityManaCost"        "0"
+
+				"OnSpellStart"
+                {
+
+
+
+				}
+
+	}
+
+
+		//=================================================================================================================
+	// Pudge Wars: Upgrade Hook Speed
+	//=================================================================================================================
+	"pudge_wars_upgrade_hook_speed"
+	{
+		// General
+                //-------------------------------------------------------------------------------------------------------------
+                "BaseClass"             "ability_datadriven"
+                "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE "
+				"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+                "AbilityTextureName"     "pudge_wars_upgrade_hook_speed"
+
+                // Casting
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilityCastPoint"       "0"
+
+
+                // Time
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilityCooldown"        "0"
+
+
+                // Cost
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilityManaCost"        "0"
+
+				"OnSpellStart"
+                {
+
+
+
+				}
+
+	}
+	//=================================================================================================================
+	// Pudge Wars: Upgrade Hook Size
+	//=================================================================================================================
+	"pudge_wars_upgrade_hook_size"
+	{
+		// General
+                //-------------------------------------------------------------------------------------------------------------
+                "BaseClass"             "ability_datadriven"
+               	"AbilityType"			"DOTA_ABILITY_TYPE_BASIC"
+			   	"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE "
+                "AbilityTextureName"	"pudge_wars_upgrade_hook_size"
+
+                // Casting
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilityCastPoint"       "0"
+
+
+                // Time
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilityCooldown"        "0"
+
+
+                // Cost
+                //-------------------------------------------------------------------------------------------------------------
+                "AbilityManaCost"        "0"
+
+				"OnSpellStart"
+                {
+
+
+
+				}
+
+	}
+}
