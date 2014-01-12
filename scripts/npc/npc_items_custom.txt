@@ -160,42 +160,321 @@
 	}
 	
 	//=================================================================================================================
-	// Naix Jaws
+	// N'aix's Jaw Recipes
+	//=================================================================================================================
+	"item_recipe_naix_jaw_2"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1027"
+		"BaseClass"						"item_datadriven"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"0"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_naix_jaw_2"
+		"ItemRequirements"
+		{
+			"01"						"item_naix_jaw;item_naix_jaw"
+		}
+	}
+	
+	"item_recipe_naix_jaw_3"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1028"
+		"BaseClass"						"item_datadriven"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"0"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_naix_jaw_3"
+		"ItemRequirements"
+		{
+			"01"						"item_naix_jaw_2;item_naix_jaw"
+		}
+	}
+	
+	"item_recipe_naix_jaw_4"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1029"
+		"BaseClass"						"item_datadriven"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"0"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_naix_jaw_4"
+		"ItemRequirements"
+		{
+			"01"						"item_naix_jaw_3;item_naix_jaw"
+		}
+	}
+	
+		"item_recipe_naix_jaw_5"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1030"
+		"BaseClass"						"item_datadriven"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"0"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_naix_jaw_5"
+		"ItemRequirements"
+		{
+			"01"						"item_naix_jaw_4;item_naix_jaw"
+		}
+	}
+	
+	//=================================================================================================================
+	// N'aix's Jaws
 	//=================================================================================================================
 	"item_naix_jaw"
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"ID"							"245"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 
 		"BaseClass"						"item_datadriven"
 		"AbilityTextureName"			"item_naix_jaw"
 		"ItemKillable"					"0"
-
-		 // Casting
-                //-------------------------------------------------------------------------------------------------------------
-                "AbilityCastRange"       "1200"
-                "AbilityCastPoint"       "0.3 0.3 0.3 0.3"     
-                "AbilityCastAnimation"  "pudge_meat_hook"
-				"AbilityCastAnimation"  "pudge_meat_hook"
-				
-		// Time
-        //-------------------------------------------------------------------------------------------------------------
-                "AbilityCooldown"        "1"
-
-        // Cost
-                //-------------------------------------------------------------------------------------------------------------
-                "AbilityManaCost"        "0"
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"90"
-		"ItemShopTags"					"mine"
-		"ItemQuality"					"rare"
+		"ItemQuality"					"common"
 		"SideShop"						"1"
-		"ItemDeclarations"				"DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"			"CASTER"
+				"ModifierName"			"naix_jaw"
+			}
+		}
+		
+		
+		
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"Modifiers"
+		{
+			"naix_jaw"
+			{
+				"Passive" "1"
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile"                        "scripts/vscripts/custompudge.lua"
+						"Function"                          "OnUpgradeHookLifesteal1"
+						"Caster"							"CASTER"
+					}
+				}
+			}
+		}
+	}
+		
+		"item_naix_jaw_2"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1031"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_naix_jaw"
+		"ItemKillable"					"0"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"90"
+		"ItemQuality"					"common"
+		"SideShop"						"1"
+		
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"			"CASTER"
+				"ModifierName"			"naix_jaw2"
+			}
+		}
+		
+		"Modifiers"
+		{
+			"naix_jaw2"
+			{
+				"Passive" "1"
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile"                        "scripts/vscripts/custompudge.lua"
+						"Function"                          "OnUpgradeHookLifesteal2"
+						"Caster"							"CASTER"
+					}
+				}
+			}
+		}
+	}
+	
+		"item_naix_jaw_3"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1032"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_naix_jaw"
+		"ItemKillable"					"0"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"90"
+		"ItemQuality"					"common"
+		"SideShop"						"1"
+		
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"			"CASTER"
+				"ModifierName"			"naix_jaw3"
+			}
+		}
+		
+		"Modifiers"
+		{
+			"naix_jaw3"
+			{
+				"Passive" "1"
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile"                        "scripts/vscripts/custompudge.lua"
+						"Function"                          "OnUpgradeHookLifesteal3"
+						"Caster"							"CASTER"
+					}
+				}
+			}
+		}
+	}
+	
+		"item_naix_jaw_4"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1033"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_naix_jaw"
+		"ItemKillable"					"0"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"90"
+		"ItemQuality"					"common"
+		"SideShop"						"1"
+		
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"			"CASTER"
+				"ModifierName"			"naix_jaw4"
+			}
+		}
+				
+		"Modifiers"
+		{
+			"naix_jaw4"
+			{
+				"Passive" "1"
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile"                        "scripts/vscripts/custompudge.lua"
+						"Function"                          "OnUpgradeHookLifesteal4"
+						"Caster"							"CASTER"
+					}
+				}
+			}
+		}
+	}
+	
+		"item_naix_jaw_5"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1034"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_naix_jaw"
+		"ItemKillable"					"0"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"90"
+		"ItemQuality"					"common"
+		"SideShop"						"1"
+		
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"			"CASTER"
+				"ModifierName"			"naix_jaw5"
+			}
+		}
+		
+		"Modifiers"
+		{
+			"naix_jaw5"
+			{
+				"Passive" "1"
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile"                        "scripts/vscripts/custompudge.lua"
+						"Function"                          "OnUpgradeHookLifesteal5"
+						"Caster"							"CASTER"
+					}
+				}
+			}
+		}
 	}
 	
 		//=================================================================================================================
@@ -292,42 +571,437 @@
 
 	}
 	
-		//=================================================================================================================
-	// Lycan Paw
 	//=================================================================================================================
+	// Lycan Paw Recipes
+	//=================================================================================================================
+	"item_recipe_lycan_paw_2"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1017"
+		"BaseClass"						"item_datadriven"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"0"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_lycan_paw_2"
+		"ItemRequirements"
+		{
+			"01"						"item_lycan_paw;item_lycan_paw"
+		}
+	}
+	
+	"item_recipe_lycan_paw_3"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1024"
+		"BaseClass"						"item_datadriven"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"0"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_lycan_paw_3"
+		"ItemRequirements"
+		{
+			"01"						"item_lycan_paw_2;item_lycan_paw"
+		}
+	}
+	
+	"item_recipe_lycan_paw_4"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1025"
+		"BaseClass"						"item_datadriven"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"0"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_lycan_paw_4"
+		"ItemRequirements"
+		{
+			"01"						"item_lycan_paw_3;item_lycan_paw"
+		}
+	}
+	
+		"item_recipe_lycan_paw_5"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1026"
+		"BaseClass"						"item_datadriven"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"0"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_lycan_paw_5"
+		"ItemRequirements"
+		{
+			"01"						"item_lycan_paw_4;item_lycan_paw"
+		}
+	}
+
+
+	
+	
+	//=================================================================================================================
+	// Lycan Paws
+	//================== ===============================================================================================
 	"item_lycan_paw"
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"ID"							"248"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 
 		"BaseClass"						"item_datadriven"
 		"AbilityTextureName"			"item_lycan_paw"
 		"ItemKillable"					"0"
 
-		 // Casting
-                //-------------------------------------------------------------------------------------------------------------
-                "AbilityCastRange"       "1200"
-                "AbilityCastPoint"       "0.3 0.3 0.3 0.3"     
-                "AbilityCastAnimation"  "pudge_meat_hook"
-				"AbilityCastAnimation"  "pudge_meat_hook"
-				
-		// Time
-        //-------------------------------------------------------------------------------------------------------------
-                "AbilityCooldown"        "1"
-
-        // Cost
-                //-------------------------------------------------------------------------------------------------------------
-                "AbilityManaCost"        "0"
-		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"90"
-		"ItemShopTags"					"mine"
-		"ItemQuality"					"rare"
+		"ItemCost"						"75"
+		"ItemShopTags"					""
+		"ItemQuality"					"common"
 		"SideShop"						"1"
-		"ItemDeclarations"				"DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"ItemShareability"				"ITEM_NOT_SHAREABLE"
+		"ItemSellable"					"0"
+		"ItemKillable"					"0"
+		
+		
+		
+		
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"			"CASTER"
+				"ModifierName"			"lycan_paws_speed"
+			}
+		}
+		
+		
+		
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"Modifiers"
+		{
+			"lycan_paws_speed"
+			{
+				"Passive" "1"
+				
+				"Properties"
+				{
+				"MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT"		"%movespeed_bonus"
+				}
+			}
+		}
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"item_level"			"1"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"movespeed_bonus"		"50"
+			}
+		}
+
+	}
+	
+	"item_lycan_paw_2"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1016"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_lycan_paw"
+		"ItemKillable"					"0"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"180"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_NEVER"
+		"ItemShopTags"					""
+		"ItemQuality"					"common"
+		"ItemShareability"				"ITEM_NOT_SHAREABLE"
+		"ItemSellable"					"0"
+		"ItemKillable"					"0"
+		
+		
+		
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"			"CASTER"
+				"ModifierName"			"lycan_paws_speed_2"
+			}
+		}
+		
+		
+		
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"Modifiers"
+		{
+			"lycan_paws_speed_2"
+			{
+				"Passive" "1"
+				
+				"Properties"
+				{
+				"MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT"		"%movespeed_bonus"
+				}
+			}
+		}
+		
+		"AbilitySpecial"
+		{
+			
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"item_level"			"2"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"movespeed_bonus"		"75"
+			}
+		}
+	}
+	
+	"item_lycan_paw_3"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1021"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_lycan_paw"
+		"ItemKillable"					"0"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"180"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_NEVER"
+		"ItemShopTags"					""
+		"ItemQuality"					"common"
+		"ItemShareability"				"ITEM_NOT_SHAREABLE"
+		"ItemSellable"					"0"
+		"ItemKillable"					"0"
+		
+		
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"			"CASTER"
+				"ModifierName"			"lycan_paws_speed_3"
+			}
+		}
+		
+		
+		
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"Modifiers"
+		{
+			"lycan_paws_speed_3"
+			{
+				"Passive" "1"
+				
+				"Properties"
+				{
+				"MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT"		"%movespeed_bonus"
+				}
+			}
+		}
+		
+		"AbilitySpecial"
+		{
+			
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"item_level"			"3"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"movespeed_bonus"		"100"
+			}
+		}
+
+	}
+	
+	"item_lycan_paw_4"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1022"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_lycan_paw"
+		"ItemKillable"					"0"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"180"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_NEVER"
+		"ItemShopTags"					""
+		"ItemQuality"					"common"
+		"ItemShareability"				"ITEM_NOT_SHAREABLE"
+		"ItemSellable"					"0"
+		"ItemKillable"					"0"
+		
+		
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"			"CASTER"
+				"ModifierName"			"lycan_paws_speed_4"
+			}
+		}
+		
+		
+		
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"Modifiers"
+		{
+			"lycan_paws_speed_4"
+			{
+				"Passive" "1"
+				
+				"Properties"
+				{
+				"MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT"		"%movespeed_bonus"
+				}
+			}
+		}
+		
+		"AbilitySpecial"
+		{
+			
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"item_level"		"4"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"movespeed_bonus"	"125"
+			}
+
+		}
+	}
+	
+	"item_lycan_paw_5"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1023"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_lycan_paw"
+		"ItemKillable"					"0"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"180"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_NEVER"
+		"ItemShopTags"					""
+		"ItemQuality"					"common"
+		"ItemShareability"				"ITEM_NOT_SHAREABLE"
+		"ItemSellable"					"0"
+		"ItemKillable"					"0"
+		
+		
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"			"CASTER"
+				"ModifierName"			"lycan_paws_speed_5"
+			}
+		}
+		
+		
+		
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"Modifiers"
+		{
+			"lycan_paws_speed_5"
+			{
+				"Passive" "1"
+				
+				"Properties"
+				{
+				"MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT"		"%movespeed_bonus"
+				"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE"		"%movespeed_percentage_bonus"	
+				"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"		"%attackspeed_bonus"
+				}
+			}
+		}
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"item_level"					"5"
+			}
+			"02"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"movespeed_bonus"				"150"
+			}
+			"03"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"movespeed_percentage_bonus"	"12"
+			}
+			"04"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"attackspeed_bonus"				"27"
+			}
+		}
 
 	}
 	
