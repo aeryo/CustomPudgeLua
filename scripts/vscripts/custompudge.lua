@@ -22,6 +22,7 @@ function PudgeClass.create(playerId)
   pudge.hookdamage = 500
   pudge.hookspeed = 1000
   pudge.hooklength = 1500
+  pudge.hooklifesteal = 0
   pudge.hookType = 0 -- 1 : normal, 2: grappling
   pudge.target = nil
   pudge.caster = nil
@@ -37,6 +38,10 @@ function PudgeClass:AddLength(length)
   self.hooklength = self.hooklength + length
 end
 
+function PudgeClass:SetHookLifesteal(lifesteal)
+print('running SetLifesteal')
+  self.hooklifesteal = lifesteal
+ end
 -- ****** PUDGECLASS FUNCTIONS END
 
 function CustomPudge:_SetInitialValues()
@@ -103,8 +108,12 @@ function OnHookHit( keys )
  -- PudgeArray[ casterUnit:GetPlayerOwnerID() ].target:AddNewModifier( PudgeArray[ casterUnit:GetPlayerOwnerID() ].target, nil, "modifier_followthrough", modifierTable )
   
   if targetUnit:GetHealth() > PudgeArray[ casterUnit:GetPlayerOwnerID() ].hookdamage then
-    targetUnit:SetHealth( targetUnit:GetHealth() -  PudgeArray[ casterUnit:GetPlayerOwnerID() ].hookdamage)
+  local hookdmg = PudgeArray[ casterUnit:GetPlayerOwnerID() ].hookdamage
+  local lifesteal = PudgeArray[ casterUnit:GetPlayerOwnerID() ].hooklifesteal
+    targetUnit:SetHealth( targetUnit:GetHealth() - hookdmg)
+	casterUnit:SetHealth( casterUnit:GetHealth() + hookdmg / 100 * lifesteal)
   else
+	casterUnit:SetHealth( casterUnit:GetHealth() + hookdmg / 100 * lifesteal)
     targetUnit:ForceKill(false)
   end
   if targetUnit:IsAlive() then
@@ -128,5 +137,26 @@ end
 function OnUpgradeHookDamage( keys )
   print("\n\nonupgradehook damage\n\n")
   PudgeArray[ keys.caster:GetPlayerOwnerID() ]:AddDamage(100)
+end
+
+function OnUpgradeHookLifesteal1( keys )
+  print('running lifesteal upgrade')
+  PudgeArray[ keys.caster:GetPlayerOwnerID() ]:SetHookLifesteal(20)
+end
+function OnUpgradeHookLifesteal2( keys )
+  print('running lifesteal upgrade')
+  PudgeArray[ keys.caster:GetPlayerOwnerID() ]:SetHookLifesteal(25)
+end
+function OnUpgradeHookLifesteal3( keys )
+  print('running lifesteal upgrade')
+  PudgeArray[ keys.caster:GetPlayerOwnerID() ]:SetHookLifesteal(30)
+end
+function OnUpgradeHookLifesteal4( keys )
+  print('running lifesteal upgrade')
+  PudgeArray[ keys.caster:GetPlayerOwnerID() ]:SetHookLifesteal(35)
+end
+function OnUpgradeHookLifesteal5( keys )
+  print('running lifesteal upgrade')
+  PudgeArray[ keys.caster:GetPlayerOwnerID() ]:SetHookLifesteal(40)
 end
 --EntityFramework:RegisterScriptClass( CustomPudge )
