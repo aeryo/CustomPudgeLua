@@ -49,5 +49,6 @@ RegisterGamemode('pudgewars', {
         --Init custom Pudge Wars class
         CustomPudge:InitGameMode()
     end,
+    --Listen to onthink to turn off modifers etc..
     onThink = function(frota, dt) CustomPudge:_thinkState_Move() end
 })

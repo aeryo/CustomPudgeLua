@@ -91,14 +91,14 @@
                                 "Caster"                                 "CASTER"
                                 "ScriptFile"                        "scripts/vscripts/custompudge.lua"
                                 "Function"                                "OnHookHit"
-                        }        
+                        }      
                 }
                 "OnSpellStart"
                 {
                         "RunScript"
                         {
                                 "ScriptFile"                        "scripts/vscripts/custompudge.lua"
-                                "Function"                                "OnThrowHook"
+                               "Function"                                "OnThrowHook"
                         }
                 }
 

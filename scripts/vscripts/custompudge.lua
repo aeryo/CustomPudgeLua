@@ -60,65 +60,15 @@ end
 
 function CustomPudge:_thinkState_Move()
   print("working...")
-  --for i=0, 9 do
-  local i = 0
-    if PudgeArray[i].hookType == 1 then 
+  for i=0, 9 do
+    if PudgeArray[i].hookType == 1 then
         local curVec = PudgeArray[i].target:GetOrigin()
         local endVec = PudgeArray[i].caster:GetOrigin()
-        local distVec = curVec - endVec
-        local tempVec = Vec3(0,0,0)
-        local tempVec2 = Vec3(0,0,0)
-        local counter = 0
-        print(string.format( 'Got vDist X=%d,Y=%d,Z=%d', distVec.x,distVec.y,distVec.z) )
-        print(string.format( 'Got curVec X=%d,Y=%d,Z=%d', curVec.x,curVec.y,curVec.z) )
-        print(string.format( 'Got endVec X=%d,Y=%d,Z=%d', endVec.x,endVec.y,endVec.z) )
-        
-    
-        local v_x = distVec.x
-        local v_y = distVec.y
-        local v_z = distVec.z
-        local vectorLength = math.sqrt(v_x * v_x + v_y * v_y + v_z * v_z)
-        print( string.format('DistanceV Length: %d',vectorLength) )
-        v_x = v_x / vectorLength
-        v_y = v_y / vectorLength
-        v_z = v_z / vectorLength    
-        tempVec = Vec3(v_x,v_y,v_z)
-        print( string.format('DistaceV Normalized X: %f', tempVec.x) )
-        PudgeArray[i].keepGoing = true
-        while PudgeArray[i].keepGoing do 
-          --Move the target
-          if curVec ~= endVec then --fix curVec.X also
-            if not (((curVec.x > endVec.x) and ((curVec.x - 110) <= endVec.x)) or ((curVec.x < endVec.x) and (((curVec.x + 110) >= endVec.x )) and ((curVec.y > endVec.y) and ((curVec.y - 110) <= endVec.y)))) then
-              tempVec2 = curVec - tempVec       
-              --tempVec = curVec - distVec
-              curVec = tempVec2
-              print(string.format( 'Got curVec X=%d,Y=%d,Z=%d', curVec.x,curVec.y,curVec.z) )
-              counter = counter + 1
-              if counter > 40 then
-                PudgeArray[i].keepGoing = false
-              end
-            else
-              PudgeArray[i].keepGoing = false 
-              PudgeArray[i].hookType = 0
-              PudgeArray[i].target:RemoveModifierByName( "modifier_pudge_meat_hook" )
-            end
-          else
-            PudgeArray[i].keepGoing = false 
-            PudgeArray[i].hookType = 0
-            PudgeArray[i].target:RemoveModifierByName( "modifier_pudge_meat_hook" )
-          end
-        
-          print( string.format('Moved X=%d', curVec.x) )
-          --keepGoing = false
-          --vdist = curVec - endVec
-        end
-        --local veloVec = Vec3(2000,2000,0)
-        --targetUnit:SetVelocity( veloVec )
-        PudgeArray[i].target:SetOrigin( curVec )
-        print("\n\n Moved Unit\n\n")     
+        if (((curVec.x > endVec.x) and ((curVec.x - 110) <= endVec.x)) or ((curVec.x < endVec.x) and (((curVec.x + 110) >= endVec.x )) and ((curVec.y > endVec.y) and ((curVec.y - 110) <= endVec.y)))) then  
+          PudgeArray[i].target:RemoveModifierByName( "modifier_pudge_meat_hook" )
+        end  
     end 
-  --end
-  FireGameEvent( "dragtarget", {} )
+  end
 end
 
 function OnGrappleHookHit( keys )
@@ -140,13 +90,16 @@ function OnHookHit( keys )
   local casterUnit = keys.caster
   PudgeArray[ casterUnit:GetPlayerOwnerID() ].caster = casterUnit
   PudgeArray[ casterUnit:GetPlayerOwnerID() ].target = targetUnit
+  --targetUnit:SetVelocity(Vec3(200,200,50))  
   
-  local modifierTable =
+  -- Move the target to pudge
+  local order =
   {
-    target = "TARGET",
-    caster =  "CASTER"
+    UnitIndex = targetUnit:entindex(),
+    OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION,
+    Position = casterUnit:GetOrigin()
   }
-  
+    ExecuteOrderFromTable( order )
  -- PudgeArray[ casterUnit:GetPlayerOwnerID() ].target:AddNewModifier( PudgeArray[ casterUnit:GetPlayerOwnerID() ].target, nil, "modifier_followthrough", modifierTable )
   
   if targetUnit:GetHealth() > PudgeArray[ casterUnit:GetPlayerOwnerID() ].hookdamage then
