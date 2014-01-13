@@ -660,7 +660,7 @@
                 {
                     "RunScript"
                     {
-                        "ScriptFile"                        "scripts/vscripts/custompudge.lua"
+                        "ScriptFile"       	                 "scripts/vscripts/custompudge.lua"
                         "Function"                          "OnUpgradeLanternPercentage"
                         "Caster"                            "CASTER"
                     }
