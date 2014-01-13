@@ -23,6 +23,7 @@ function PudgeClass.create(playerId)
   pudge.hookspeed = 1000
   pudge.hooklength = 1500
   pudge.hooklifesteal = 0
+  pudge.lanternpercent = 0
   pudge.hookType = 0 -- 1 : normal, 2: grappling
   pudge.target = nil
   pudge.caster = nil
@@ -42,6 +43,11 @@ function PudgeClass:SetHookLifesteal(lifesteal)
 print('running SetLifesteal')
   self.hooklifesteal = lifesteal
  end
+
+function PudgeClass:SetLanternPercent(lantern)
+  print('running SetLanternPercent')
+  self.lanternpercent = lantern
+end
 -- ****** PUDGECLASS FUNCTIONS END
 
 function CustomPudge:_SetInitialValues()
@@ -107,10 +113,11 @@ function OnHookHit( keys )
     ExecuteOrderFromTable( order )
  -- PudgeArray[ casterUnit:GetPlayerOwnerID() ].target:AddNewModifier( PudgeArray[ casterUnit:GetPlayerOwnerID() ].target, nil, "modifier_followthrough", modifierTable )
   
-  if targetUnit:GetHealth() > PudgeArray[ casterUnit:GetPlayerOwnerID() ].hookdamage then
-  local hookdmg = PudgeArray[ casterUnit:GetPlayerOwnerID() ].hookdamage
+  local hooklanterndmg = (PudgeArray[ casterUnit:GetPlayerOwnerID() ].hookspeed - 700) / 100 * PudgeArray[ casterUnit:GetPlayerOwnerID() ].lanternpercent
+  local hookdmg = PudgeArray[ casterUnit:GetPlayerOwnerID() ].hookdamage + hooklanterndmg
+  if targetUnit:GetHealth() > hookdmg then
   local lifesteal = PudgeArray[ casterUnit:GetPlayerOwnerID() ].hooklifesteal
-    targetUnit:SetHealth( targetUnit:GetHealth() - hookdmg)
+  targetUnit:SetHealth( targetUnit:GetHealth() - hookdmg)
 	casterUnit:SetHealth( casterUnit:GetHealth() + hookdmg / 100 * lifesteal)
   else
 	casterUnit:SetHealth( casterUnit:GetHealth() + hookdmg / 100 * lifesteal)
@@ -158,5 +165,25 @@ end
 function OnUpgradeHookLifesteal5( keys )
   print('running lifesteal upgrade')
   PudgeArray[ keys.caster:GetPlayerOwnerID() ]:SetHookLifesteal(40)
+end
+function OnUpgradeLanternPercentage( keys )
+  print('running lantern upgrade')
+  PudgeArray[ keys.caster:GetPlayerOwnerID() ]:SetLanternPercent(25)
+end
+function OnUpgradeLanternPercentage2( keys )
+  print('running lantern upgrade')
+  PudgeArray[ keys.caster:GetPlayerOwnerID() ]:SetLanternPercent(30)
+end
+function OnUpgradeLanternPercentage3( keys )
+  print('running lantern upgrade')
+  PudgeArray[ keys.caster:GetPlayerOwnerID() ]:SetLanternPercent(35)
+end
+function OnUpgradeLanternPercentage4( keys )
+  print('running lantern upgrade')
+  PudgeArray[ keys.caster:GetPlayerOwnerID() ]:SetLanternPercent(40)
+end
+function OnUpgradeLanternPercentage5( keys )
+  print('running lantern upgrade')
+  PudgeArray[ keys.caster:GetPlayerOwnerID() ]:SetLanternPercent(45)
 end
 --EntityFramework:RegisterScriptClass( CustomPudge )
