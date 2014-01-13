@@ -42,6 +42,8 @@ To Do List:
 
 * Add tooltips for everything
 
+* Remove script bonuses when dropping items
+
 Creators:
 -------------------------
 Frota is made by [Ash47] [1]
