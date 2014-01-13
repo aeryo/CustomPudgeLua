@@ -8,7 +8,12 @@ Bugs:
 
 Hook is buggy when thrown more than once, but it now smooth.
 
+
 To Do List:
+
+Visual for Hook
+
+Stop unit from moving when Hooked
 
 Add Richochet Turbine
 
