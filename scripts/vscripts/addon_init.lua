@@ -14,7 +14,7 @@ require('frota')
 require('gamemodes')
 
 -- Include gamemodes
-require('gamemodes/tinywars')
+
 require('gamemodes/pudgewars')
 
 --Pudge wars custom class

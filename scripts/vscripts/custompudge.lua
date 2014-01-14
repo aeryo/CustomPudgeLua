@@ -73,10 +73,18 @@ function CustomPudge:_thinkState_Move()
   print("working...")
   for i=0, 9 do
     if PudgeArray[i].hookType == 1 then
+      if hookChainParticle == nil then
+        hookChainParticle = ParticleManager:CreateParticle( "pudge_ambient_chain", PATTACH_RENDERORIGIN_FOLLOW, PudgeArray[i].caster )
+      end
         local curVec = PudgeArray[i].target:GetOrigin()
         local endVec = PudgeArray[i].caster:GetOrigin()
+        ParticleManager:SetParticleControl( hookChainParticle, 1, Vec3( curVec.x, curVec.y, 0.00 ) )
+        ParticleManager:SetParticleControl( hookChainParticle, 2, Vec3( endVec.x, endVec.y, 0.00 ) )
         if (((curVec.x > endVec.x) and ((curVec.x - 110) <= endVec.x)) or ((curVec.x < endVec.x) and (((curVec.x + 110) >= endVec.x )) and ((curVec.y > endVec.y) and ((curVec.y - 110) <= endVec.y)))) then  
-          PudgeArray[i].target:RemoveModifierByName( "modifier_pudge_meat_hook" )
+        PudgeArray[i].target:RemoveModifierByName( "modifier_pudge_meat_hook" )
+        ParticleManager:SetParticleControl( hookChainParticle, 1, Vec3( curVec.x, curVec.y, curVec.z ) )
+        ParticleManager:SetParticleControl( hookChainParticle, 2, Vec3( curVec.x, curVec.y, curVec.z ) )
+        PudgeArray[i].hookType = 0 
         end  
     end 
   end
@@ -120,7 +128,6 @@ function OnHookHit( keys )
   targetUnit:SetHealth( targetUnit:GetHealth() - hookdmg)
 	casterUnit:SetHealth( casterUnit:GetHealth() + hookdmg / 100 * lifesteal)
   else
-	casterUnit:SetHealth( casterUnit:GetHealth() + hookdmg / 100 * lifesteal)
     targetUnit:ForceKill(false)
   end
   if targetUnit:IsAlive() then
@@ -166,6 +173,7 @@ function OnUpgradeHookLifesteal5( keys )
   print('running lifesteal upgrade')
   PudgeArray[ keys.caster:GetPlayerOwnerID() ]:SetHookLifesteal(40)
 end
+
 function OnUpgradeLanternPercentage( keys )
   print('running lantern upgrade')
   PudgeArray[ keys.caster:GetPlayerOwnerID() ]:SetLanternPercent(25)
