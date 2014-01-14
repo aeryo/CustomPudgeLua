@@ -458,6 +458,16 @@
                 "ModifierName"          "naix_jaw5"
             }
         }
+
+        "OnAttackLanded"
+        {
+            "RunScript"
+            {
+                "ScriptFile"                "scripts/vscripts/custompudge.lua"
+                "Function"                  "NaixJawAttackLifesteal"
+            }
+        }
+
         
         "Modifiers"
         {
