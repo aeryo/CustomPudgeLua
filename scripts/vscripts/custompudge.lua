@@ -103,6 +103,20 @@ function OnGrappleHookHit( keys )
  --   print("\n\n IS NOT ALIVE \n\n")
  -- end  
 end
+
+function HandleOrders(order)
+  local unit = nil
+  if order.UnitIndex then
+    unit = EntIndexToHScript(order.UnitIndex)
+  end 
+  if unit and unit:HasModifier("modifier_pudge_meat_hook") then
+    return false
+  else return true
+  end
+end
+
+ExHook:ExecuteOrders(HandleOrders)
+
 function OnHookHit( keys )
   print("\n\n Normal HIT \n\n")
   local targetUnit = keys.target_entities[1]
