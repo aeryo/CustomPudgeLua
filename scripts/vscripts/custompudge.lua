@@ -69,40 +69,47 @@ function CustomPudge:InitGameMode()
   CustomPudge:_SetInitialValues();
 end
 
-function CustomPudge:_thinkState_Move()
-  print("working...")
+function CustomPudge:_thinkState_Move(frota, dt)
+  print("hej" .. dt)
   for i=0, 9 do
     if PudgeArray[i].hookType == 1 then
         local curVec = PudgeArray[i].target:GetOrigin()
         local endVec = PudgeArray[i].caster:GetOrigin()
-        if (((curVec.x > endVec.x) and ((curVec.x - 110) <= endVec.x)) or ((curVec.x < endVec.x) and (((curVec.x + 110) >= endVec.x )) and ((curVec.y > endVec.y) and ((curVec.y - 110) <= endVec.y)))) then  
+        if (((curVec.x > endVec.x) and ((curVec.x - 60) <= endVec.x)) or ((curVec.x < endVec.x) and (((curVec.x + 60) >= endVec.x )) and ((curVec.y > endVec.y) and ((curVec.y - 60) <= endVec.y)))) then  
           PudgeArray[i].target:RemoveModifierByName( "modifier_pudge_meat_hook" )
+          PudgeArray[i].target:RemoveModifierByName( "change_move_speed" )
+          --PudgeArray[i].target:RemoveModifierByName( "modifier_stunned" )
+          PudgeArray[i].target:RemoveModifierByName( "modifier_spectre_spectral_dagger_path_phased" )
+          PudgeArray[i].target:RemoveModifierByName( "modifier_silence" )
+          PudgeArray[i].hookType = 0
+        else
+          local order =
+          {
+            UnitIndex =  PudgeArray[i].target:entindex(),
+            OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION,
+            Position =  PudgeArray[i].caster:GetOrigin()
+          }
+          ExecuteOrderFromTable( order ) 
         end  
     end 
   end
 end
 
-function OnGrappleHookHit( keys )
-  print("\n\n Grapple HIT \n\n")
-  keepGoing = true
-  targetUnit = keys.target_entities[1] --check if theres something here....
-  casterUnit = keys.caster
- -- if targetUnit:IsAlive() then (check if builde)
-    print("IS ALIVE")
-    moveUnitGrapple = true
-    print("Started Think")
- -- else
- --   print("\n\n IS NOT ALIVE \n\n")
- -- end  
-end
 function OnHookHit( keys )
-  print("\n\n Normal HIT \n\n")
-  local targetUnit = keys.target_entities[1]
+  print("\n\n Hook HIT \n\n")
+    local targetUnit = keys.target_entities[1]
   local casterUnit = keys.caster
   PudgeArray[ casterUnit:GetPlayerOwnerID() ].caster = casterUnit
   PudgeArray[ casterUnit:GetPlayerOwnerID() ].target = targetUnit
   --targetUnit:SetVelocity(Vec3(200,200,50))  
   
+  -- Set move speed to targets move speed.
+  local hookab = casterUnit:FindAbilityByName("pudge_meat_hook_holdout")
+  print("Name: " .. hookab:GetAbilityName() )
+  targetUnit:AddNewModifier( targetUnit, hookab, "modifier_pudge_meat_hook", {} )
+  --targetUnit:AddNewModifier( targetUnit, nil, "modifier_stunned", {} )
+  targetUnit:AddNewModifier( targetUnit, nil, "modifier_spectre_spectral_dagger_path_phased", {} )
+  targetUnit:AddNewModifier( targetUnit, nil, "modifier_silence", {} )
   -- Move the target to pudge
   local order =
   {
@@ -110,17 +117,14 @@ function OnHookHit( keys )
     OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION,
     Position = casterUnit:GetOrigin()
   }
-    ExecuteOrderFromTable( order )
+    
+  ExecuteOrderFromTable( order )
+    
  -- PudgeArray[ casterUnit:GetPlayerOwnerID() ].target:AddNewModifier( PudgeArray[ casterUnit:GetPlayerOwnerID() ].target, nil, "modifier_followthrough", modifierTable )
   
-  local hooklanterndmg = (PudgeArray[ casterUnit:GetPlayerOwnerID() ].hookspeed - 700) / 100 * PudgeArray[ casterUnit:GetPlayerOwnerID() ].lanternpercent
-  local hookdmg = PudgeArray[ casterUnit:GetPlayerOwnerID() ].hookdamage + hooklanterndmg
-  if targetUnit:GetHealth() > hookdmg then
-  local lifesteal = PudgeArray[ casterUnit:GetPlayerOwnerID() ].hooklifesteal
-  targetUnit:SetHealth( targetUnit:GetHealth() - hookdmg)
-	casterUnit:SetHealth( casterUnit:GetHealth() + hookdmg / 100 * lifesteal)
+  if targetUnit:GetHealth() > PudgeArray[ casterUnit:GetPlayerOwnerID() ].hookdamage then
+    targetUnit:SetHealth( targetUnit:GetHealth() -  PudgeArray[ casterUnit:GetPlayerOwnerID() ].hookdamage)
   else
-	casterUnit:SetHealth( casterUnit:GetHealth() + hookdmg / 100 * lifesteal)
     targetUnit:ForceKill(false)
   end
   if targetUnit:IsAlive() then

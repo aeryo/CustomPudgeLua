@@ -77,7 +77,8 @@
                         {
                                 "Target"                                 "TARGET"
                                 "Caster"                                "CASTER"
-                                "ModifierName"                        "modifier_pudge_meat_hook"                
+                              //  "ModifierName"                        "modifier_pudge_meat_hook" 
+                              "ModifierName"                        "change_move_speed"               
                         }
                 //        "Damage"
                 //        {
@@ -132,6 +133,16 @@
                         "vision_duration"        "4.0 4.0 4.0 4.0"
                         }
                 }
+                "Modifiers"
+                {
+					"change_move_speed"
+					{
+						"Properties"
+						{
+							"MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE"	"560"
+						}
+					}
+		      	}
         }
 
 	"tiny_wars_toss"
