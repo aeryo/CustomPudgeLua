@@ -66,6 +66,13 @@
                 "OnProjectileHitUnit"
                 {
                         "DeleteOnHit" "true"
+                        "RunScript"
+                        {
+                                "Target"                                 "TARGET"
+                                "Caster"                                 "CASTER"
+                                "ScriptFile"                        "scripts/vscripts/custompudge.lua"
+                                "Function"                                "OnHookHit"
+                        } 
                     //    "ApplyModifier"
                    //     {
                    //             "Target"                                 "TARGET"
@@ -85,13 +92,7 @@
                 //                "Damage"        "500"
                 //                "Target" "TARGET" 
                 //        }
-                        "RunScript"
-                        {
-                                "Target"                                 "TARGET"
-                                "Caster"                                 "CASTER"
-                                "ScriptFile"                        "scripts/vscripts/custompudge.lua"
-                                "Function"                                "OnHookHit"
-                        }      
+                             
                 }
                 "OnSpellStart"
                 {
