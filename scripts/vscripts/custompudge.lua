@@ -73,8 +73,12 @@ function CustomPudge:_thinkState_Move(frota, dt)
   print("hej" .. dt)
   for i=0, 9 do
     if PudgeArray[i].hookType == 1 then
+      if hookChainParticle == nil then
+        hookChainParticle = ParticleManager:CreateParticle( "pudge_ambient_chain", PATTACH_RENDERORIGIN_FOLLOW, PudgeArray[i].caster )
+      end
         local curVec = PudgeArray[i].target:GetOrigin()
         local endVec = PudgeArray[i].caster:GetOrigin()
+<<<<<<< HEAD
         if (((curVec.x > endVec.x) and ((curVec.x - 60) <= endVec.x)) or ((curVec.x < endVec.x) and (((curVec.x + 60) >= endVec.x )) and ((curVec.y > endVec.y) and ((curVec.y - 60) <= endVec.y)))) then  
           PudgeArray[i].target:RemoveModifierByName( "modifier_pudge_meat_hook" )
           PudgeArray[i].target:RemoveModifierByName( "change_move_speed" )
@@ -90,11 +94,50 @@ function CustomPudge:_thinkState_Move(frota, dt)
             Position =  PudgeArray[i].caster:GetOrigin()
           }
           ExecuteOrderFromTable( order ) 
+=======
+        ParticleManager:SetParticleControl( hookChainParticle, 1, Vec3( curVec.x, curVec.y, 0.00 ) )
+        ParticleManager:SetParticleControl( hookChainParticle, 2, Vec3( endVec.x, endVec.y, 0.00 ) )
+        if (((curVec.x > endVec.x) and ((curVec.x - 110) <= endVec.x)) or ((curVec.x < endVec.x) and (((curVec.x + 110) >= endVec.x )) and ((curVec.y > endVec.y) and ((curVec.y - 110) <= endVec.y)))) then  
+        PudgeArray[i].target:RemoveModifierByName( "modifier_pudge_meat_hook" )
+        ParticleManager:SetParticleControl( hookChainParticle, 1, Vec3( curVec.x, curVec.y, curVec.z ) )
+        ParticleManager:SetParticleControl( hookChainParticle, 2, Vec3( curVec.x, curVec.y, curVec.z ) )
+        PudgeArray[i].hookType = 0 
+>>>>>>> origin/3
         end  
     end 
   end
 end
 
+<<<<<<< HEAD
+=======
+function OnGrappleHookHit( keys )
+  print("\n\n Grapple HIT \n\n")
+  keepGoing = true
+  targetUnit = keys.target_entities[1] --check if theres something here....
+  casterUnit = keys.caster
+ -- if targetUnit:IsAlive() then (check if builde)
+    print("IS ALIVE")
+    moveUnitGrapple = true
+    print("Started Think")
+ -- else
+ --   print("\n\n IS NOT ALIVE \n\n")
+ -- end  
+end
+
+function HandleOrders(order)
+  local unit = nil
+  if order.UnitIndex then
+    unit = EntIndexToHScript(order.UnitIndex)
+  end 
+  if unit and unit:HasModifier("modifier_pudge_meat_hook") then
+    return false
+  else return true
+  end
+end
+
+ExHook:ExecuteOrders(HandleOrders)
+
+>>>>>>> origin/3
 function OnHookHit( keys )
   print("\n\n Hook HIT \n\n")
     local targetUnit = keys.target_entities[1]
@@ -170,6 +213,7 @@ function OnUpgradeHookLifesteal5( keys )
   print('running lifesteal upgrade')
   PudgeArray[ keys.caster:GetPlayerOwnerID() ]:SetHookLifesteal(40)
 end
+
 function OnUpgradeLanternPercentage( keys )
   print('running lantern upgrade')
   PudgeArray[ keys.caster:GetPlayerOwnerID() ]:SetLanternPercent(25)

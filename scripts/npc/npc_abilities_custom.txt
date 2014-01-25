@@ -66,6 +66,13 @@
                 "OnProjectileHitUnit"
                 {
                         "DeleteOnHit" "true"
+                        "RunScript"
+                        {
+                                "Target"                                 "TARGET"
+                                "Caster"                                 "CASTER"
+                                "ScriptFile"                        "scripts/vscripts/custompudge.lua"
+                                "Function"                                "OnHookHit"
+                        } 
                     //    "ApplyModifier"
                    //     {
                    //             "Target"                                 "TARGET"
@@ -86,13 +93,7 @@
                 //                "Damage"        "500"
                 //                "Target" "TARGET" 
                 //        }
-                        "RunScript"
-                        {
-                                "Target"                                 "TARGET"
-                                "Caster"                                 "CASTER"
-                                "ScriptFile"                        "scripts/vscripts/custompudge.lua"
-                                "Function"                                "OnHookHit"
-                        }      
+                             
                 }
                 "OnSpellStart"
                 {
@@ -788,29 +789,35 @@
 		// General
                 //-------------------------------------------------------------------------------------------------------------
                 "BaseClass"             "ability_datadriven"
-                "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+                "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_PASSIVE"
                 "AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
 				"AbilityTextureName"     "pudge_wars_upgrade_hook_damage"
-
-                // Casting
-                //-------------------------------------------------------------------------------------------------------------
-                "AbilityCastPoint"       "0"
+				"MaxLevel"				"20"
 
 
-                // Time
-                //-------------------------------------------------------------------------------------------------------------
-                "AbilityCooldown"        "0"
+				"Modifiers"
+				{
+					"upgrade_hook_damage"
+					{
+						"Passive"			"1"
+						"OnCreated"
+						{
+							"RunScript"
+							{
+								"ScriptFile"			"scripts/vscripts/custompudge.lua"
+								"Function"				"OnUpgradeHookDamage"
+							}
+						}
+					}  
+				}
 
-
-                // Cost
-                //-------------------------------------------------------------------------------------------------------------
-                "AbilityManaCost"        "0"
-
-				"OnSpellStart"
-                {
-
-
-
+				"AbilitySpecial"
+				{
+					"01"
+					{
+						"var_type"			"FIELD_INTEGER"
+						"item_level"		"1 2 3 4 5 6 7 8 9 10"
+					}
 				}
 
 	}
